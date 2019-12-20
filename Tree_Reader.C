@@ -86,6 +86,8 @@ void Tree_Reader(){
 
   auto* hP=new TH1F("P","momentum of K^{+};P [GeV];Counts",200,0,13);
   auto* hP1=new TH1F("P1","momentum of K^{+};P [GeV];Counts",200,0,13);
+  auto* hP2=new TH1F("P2","momentum of K^{+};P [GeV];Counts",200,0,13);
+  auto* hP3=new TH1F("P3","momentum of K^{+};P [GeV];Counts",200,0,13);
 
   vector<TLorentzVector> v_kp;
 
@@ -197,12 +199,12 @@ void Tree_Reader(){
       //K^+ lambda^0 channel
       miss = (TLorentzVector)*readbeam + (TLorentzVector)*readtarget - el - kp;
       l0 = pr + pim;
-      miss2 = (TLorentzVector)*readbeam + (TLorentzVector)*readtarget - el - kp - kp;
+      miss2 = (TLorentzVector)*readbeam + (TLorentzVector)*readtarget - el - v_kp[0] - v_kp[1];
 
       hP->Fill(P_kp);
-      for(int k=0;k<readkaonpno;k++){
-        hP1->Fill(v_P_kp[k]);
-      }
+      hP1->Fill(v_P_kp[0]);
+      hP2->Fill(v_P_kp[1]);
+      hP3->Fill(v_P_kp[2]);
 
       if(readkaonpno==1){
         hmiss_1->Fill(miss.M());
@@ -236,7 +238,7 @@ void Tree_Reader(){
         }
         h6->Fill(v_P_kp[0]);
         h7->Fill(v_P_kp[1]);
-        h8->Fill(v_P_kp[2]);
+        h8->Fill(P_kp);
 
       }
 
